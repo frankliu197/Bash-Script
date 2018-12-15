@@ -1,0 +1,46 @@
+#!/bin/bash
+# AUTHOR: frankliu197
+# SPECIAL THANKS: https://unix.stackexchange.com/questions/53150/how-do-i-resize-the-active-window-to-50-with-wmctrl, rubo77
+#
+# USAGE:
+# windowmanager [right/left] [top/bottom] OR windowmanager [top/bottom] [right/left]
+# By default window manager will change your window to full screen. By specifying top, bottom, right or left, you specify which half of the screen you want the current window to take.
+# e.g. windowmanager right bottom
+# this tells the screen to move the window to the right-bottom fourth of the screen
+
+#define the height in px of the top system-bar:
+TOPMARGIN=0
+RIGHTMARGIN=0
+# get width of screen and height of screen
+SCREEN_WIDTH=$(xwininfo -root | awk '$1=="Width:" {print $2}')
+SCREEN_HEIGHT=$(xwininfo -root | awk '$1=="Height:" {print $2}')
+
+#SCREEN_WIDTH=2078
+#SCREEN_HEIGHT=1240
+#X0=-80
+#Y0=-65
+
+# new width and height
+WDIVIDER=1
+HDIVIDER=1
+X=0
+Y=0
+
+while test $# != 0
+do
+    case "$1" in
+    right) X=$(( $SCREEN_WIDTH / 2)) ;&
+    left) WDIVIDER=2;;
+    bottom) Y=$(( $SCREEN_HEIGHT / 2));&
+    top) HDIVIDER=2;;
+    esac
+    shift
+done
+
+
+W=$(( $SCREEN_WIDTH / $WDIVIDER - $RIGHTMARGIN ))
+H=$(( $SCREEN_HEIGHT / $HDIVIDER - $TOPMARGIN ))
+echo X=$X Y=$Y W=$W H=$H
+
+
+wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
