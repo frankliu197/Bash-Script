@@ -74,9 +74,9 @@ mount_disk () {
     if [[ -z $rmloc ]]; then                          #disk not mounted in the first place
       echo $umountmessage $disk not mounted
       return 0
-    elif mount | grep $disk &> /dev/null; then        #disk has been umounted 
+    elif ! ( mount | grep $disk &> /dev/null ); then        #disk has been umounted 
       unset $(echo $d | awk '{print toupper($0)}')    #unset previously set cdable_var
-      return $umountmessage Successfully umounted $disk $dirmessage
+      echo $umountmessage Successfully umounted $disk $dirmessage
       return 0
     else                                              #Error occured 
       echo $umountmessage Failed to umount $disk
