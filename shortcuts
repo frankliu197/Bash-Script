@@ -1,5 +1,7 @@
 #!/bin/bash
 
+shopt -s direxpand
+shopt -s expand_aliases
 #app alias
 alias calculator=qalculate
 alias calendar=io.elementary.calendar
