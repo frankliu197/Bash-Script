@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Creates aliases for multiple git functions 
+# must install hub 
+# sudo add-apt-repository ppa:cpick/hub
+git () {
+  if [[ $1 == "commit" ]] && [[ $2 == "-A" ]]; then 
+    # Adds a -A option to commit that does the command:
+    # git add .
+    command git add .
+    command git commit -m "${@:$#}"
+  elif [[ $1 == "push" ]]; then
+    if [[ $2 == "-C" ]]; then 
+      echo Commiting with name: ${3:-no name}
+      git commit -A "${3:-no name}"; 
+    fi
+    echo Pushing branch $(git branch | grep "*" | awk '{print $2}') to Origin
+    command git push origin $(git branch | grep "*" | awk '{print $2}')
+  elif [[ $1 == "init" ]]; then
+    # init, create a repository on github, commit and push
+    command git init
+    hub create
+    if [[ ! -f README.md ]]; then touch README.md; fi
+    git push -C "First Commit"
+  else 
+    command git "$@"
+  fi
+}
