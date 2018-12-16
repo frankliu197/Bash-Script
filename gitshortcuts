@@ -7,6 +7,7 @@ git () {
   if [[ $1 == "commit" ]] && [[ $2 == "-A" ]]; then 
     # Adds a -A option to commit that does the command:
     # git add .
+    echo "${@:$#}"
     command git add .
     command git commit -m "${@:$#}"
   elif [[ $1 == "push" ]]; then
