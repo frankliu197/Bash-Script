@@ -36,10 +36,17 @@ sudo add-apt-repository -y ppa:mystic-mirage/pycharm
 #intllij
 sudo add-apt-repositoy -y ppa:ubuntuhandbook1/apps
 
+# grub customizer
+sudo add-apt-repository -y ppa:danielrichter2007/grub-customizer
+
+sudo apt update
+sudo apt install -y pavucontrol
 sudo apt install -y git hub lutris playonlinux steam timeshift pycharm  intellij-idea-ultimate
 sudo apt install -y bumblebee bumblebee-nvidia primus linux-headers-generick 
 sudo apt install -y xpad pinta qalculate
-sudo apt install vim vim-gtk
+sudo apt install -y vim vim-gtk
+sudo apt install -y dconf-editor grub-customizer
+sudo apt install -y baobab
 
 #adding harddrive
 sudo echo 'UUID=bd64816b-233e-4e45-b51c-5707f22949c0 /media/frankliu197/sda1 ext4 relatime,errors=remount-ro,discard 0 2
@@ -48,8 +55,24 @@ UUID=62fad103-5b1e-45a5-938f-28e76ca5f0c2 /media/frankliu197/sda2 ext4 relatime,
 
 
 #YGQ2J-Q26GM-R8FF8-JDC7M-KKGMV
-# anki, google chrome, firefox, draw.io, wechat, sebelius, microsoft word 
+# anki, google chrome, firefox, draw.io, discord, wechat, sebelius, microsoft word, baobab
 # setup calendar, mail, firefox chrome
 # keyboard shortcuts
 # 
 # find . -maxdepth 1 -type l -ls
+#
+# dconf dump /org/gnome/desktop/wm/keybindings/ > keybindings.dconf
+# dconf load /org/gnome/desktop/wm/keybindings/ < keybindings.dconf
+#
+# fcitx include inactive with scrolling and default input method state is inactive
+# sudo add-apt-repository ppa:fcitx-team/nightly
+#or
+
+#sudo add-apt-repository ppa:fcitx-team/stable
+#to use different repository. You can browse two repositories via ppa webpage to check which version of Fcitx it has.
+
+#After you add the repository, you need to use
+
+#sudo apt-get update
+
+#perl keybindings.pl -i keybindings2.csv
