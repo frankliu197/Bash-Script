@@ -1,4 +1,20 @@
-!/bin/bash
+#!/bin/bash
+
+#downlaod wine
+sudo apt update
+sudo apt install wine64
+sudo dpkg --add-architecture i386 
+wget -qO- https://dl.winehq.org/wine-builds/Release.key | sudo apt-key add -
+sudo apt-add-repository -y'deb http://dl.winehq.org/wine-builds/ubuntu/ bionic main'
+sudo apt get update
+sudo apt-get install -y --install-recommends winehq-stable
+#downlaod node curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
+sudo apt install -y nodejs
+
+#download java
+sudo apt install default-jre
+sudo apt install default-jdk
+sudo apt install openjdk-11-jdk
 
 #download hub
 sudo add-apt-repository -y ppa:cpick/hub
@@ -20,7 +36,20 @@ sudo add-apt-repository -y ppa:mystic-mirage/pycharm
 #intllij
 sudo add-apt-repositoy -y ppa:ubuntuhandbook1/apps
 
-sudo apt update
+sudo apt install -y git hub lutris playonlinux steam timeshift pycharm  intellij-idea-ultimate
+sudo apt install -y bumblebee bumblebee-nvidia primus linux-headers-generick 
+sudo apt install -y xpad pinta qalculate
+sudo apt install vim vim-gtk
 
-sudo apt install hub lutris playonlinux steam timeshift pycharm  intellij-idea-ultimate
-sudo apt install bumblebee bumblebee-nvidia primus linux-headers-generick 
+#adding harddrive
+sudo echo 'UUID=bd64816b-233e-4e45-b51c-5707f22949c0 /media/frankliu197/sda1 ext4 relatime,errors=remount-ro,discard 0 2
+UUID=62fad103-5b1e-45a5-938f-28e76ca5f0c2 /media/frankliu197/sda2 ext4 relatime,errors=remount-ro,discard 0 2' >> /etc/fstab
+
+
+
+#YGQ2J-Q26GM-R8FF8-JDC7M-KKGMV
+# anki, google chrome, firefox, draw.io, wechat, sebelius, microsoft word 
+# setup calendar, mail, firefox chrome
+# keyboard shortcuts
+# 
+# find . -maxdepth 1 -type l -ls
