@@ -12,8 +12,9 @@ git () {
     command git commit -m "${@:$#}"
   elif [[ $1 == "push" ]]; then
     if [[ $2 == "-C" ]]; then 
-      echo Commiting with name: ${3:-no name}
+      echo Commiting: ${3:-no name}
       git commit -A "${3:-no name}"; 
+      echo
     fi
     echo Pushing branch $(git branch | grep "*" | awk '{print $2}') to Origin
     command git push origin $(git branch | grep "*" | awk '{print $2}')
