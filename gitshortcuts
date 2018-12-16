@@ -12,18 +12,20 @@ git () {
     command git commit -m "${@:$#}"
   elif [[ $1 == "push" ]]; then
     if [[ $2 == "-C" ]]; then 
-      echo Commiting: ${3:-no name}
-      git commit -A "${3:-no name}"; 
+      lastarg=${@:$#}
+      commitname="${lastarg:-no name}"
+      echo Commiting \"$commitname\"
+      git commit -A "$commitname"
       echo
     fi
     echo Pushing branch $(git branch | grep "*" | awk '{print $2}') to Origin
-    command git push origin $(git branch | grep "*" | awk '{print $2}')
+    command git push origin $(git branch | grep "*" | awk '{print $2}') ${@:3:$#-3}
   elif [[ $1 == "init" ]]; then
     # init, create a repository on github, commit and push
     command git init
     hub create
     if [[ ! -f README.md ]]; then touch README.md; fi
-    git push -C "First Commit"
+    git push -C "First Commit" 
   else 
     command git "$@"
   fi
