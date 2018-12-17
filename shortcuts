@@ -2,7 +2,8 @@
 #LC_ALL="ja_JP.UTF-8" wine 
 
 shopt -s direxpand
-shopt -s expand_aliases
+#shopt -s expand_aliases
+
 #app alias
 alias calculator=qalculate
 alias calendar=io.elementary.calendar
@@ -23,9 +24,7 @@ export DOCUMENTS=$HOME/Documents
 export PROGRAMMING=$HOME/Programming
 export BASHSCRIPTS=$HOME/Programming/bash-scripts
 export PPA=/etc/apt/sources.list.d
-export GAMES=$HOME/Games
-export WINEENV=$GAMES/wineenv
-export XKB=/usr/share/X11/xkb
+export GAMES=$HOME/Games export WINEENV=$GAMES/wineenv export XKB=/usr/share/X11/xkb export AUTOSTART=~/.config/autostart export C_DRIVE=~/.wine/drive_c
 
 # PKILL (args) [starting]
 # PKILL used to kill all processes that match your given match string in ps aux
@@ -84,9 +83,7 @@ mount_disk () {
     elif ! ( mount | grep $disk &> /dev/null ); then        #disk has been umounted 
       unset $(echo $d | awk '{print toupper($0)}')    #unset previously set cdable_var
       echo $umountmessage Successfully umounted $disk $dirmessage
-      return 0
-    else                                              #Error occured 
-      echo $umountmessage Failed to umount $disk
+      return 0 else                                              #Error occured echo $umountmessage Failed to umount $disk
       return 1
     fi
   fi 
@@ -116,8 +113,17 @@ mount_disk () {
   return $state
 }
 
+vim () { 
+  if [[ $# == 0 ]]; then 
+    command vim $BASHSCRIPTS/shortcuts
+  else 
+    command vim $@
+  fi
+}
+
 #command alias
-alias source="source ~/.bashrc"
+alias test="if [ -z $1 ]; then echo ${1:-thisvar}; fi"
 alias UMOUNT="mount_disk umount $1"
 alias MOUNT="mount_disk mount $1"
-
+alias XCLIP="xclip -selection clipboard"
+# bash set winetricks ./env.sh winetricks d3dcompiler_43 xact_jun2010
