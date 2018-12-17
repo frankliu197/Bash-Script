@@ -1,0 +1,53 @@
+#!/bin/bash
+
+echo sets up driver, links, fstab, git vim bashrc and keybinds, and grub-cutomizer and timeshift and firefox
+# add repositories
+add-apt-repository -y ppa:danielrichter2007/grub-customizer
+add-apt-repository -y ppa:cpick/hub
+add-apt-repository -y ppa:teejee2008/ppa
+apt update
+
+
+#set up links
+mkdir -p /media/frankliu197/sda1 /media/frankliu197/sda2
+mount /dev/sda1 /media/frankliu197/sda1
+mount /dev/sda2 /media/frankliu197/sda2
+rmdir ~/Downloads ~/Documents ~/Pictures ~/Videos
+ln -s /media/frankliu197/sda1/* ~/
+ln -s /media/frankliu197/sda2/* ~/
+
+#setup hardrive on bootup 
+echo '
+UUID=bd64816b-233e-4e45-b51c-5707f22949c0 /media/frankliu197/sda1 ext4 relatime,errors=remount-ro,discard 0 2
+UUID=62fad103-5b1e-45a5-938f-28e76ca5f0c2 /media/frankliu197/sda2 ext4 relatime,errors=remount-ro,discard 0 2' | sudo tee -a /etc/fstab
+
+#set up driver and grub and timeshift
+apt install -y software-properties-gtk grub-customizer
+apt install -y timeshift
+
+#install basic stuff
+apt install -y pavucontrol baobab
+apt install -y xpad pinta qalculate
+
+#install git and vim
+apt install -y git vim vim-gtk hub xsel
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+ln -s ~/Programming/bash-scripts/.vimrc ~/
+vim +PluginInstall +qall
+
+#setup bashrc and windowmanager
+echo '
+. ~/Programming/bash-scripts/shortcuts
+. ~/Programming/bash-scripts/gitshortcuts' | sudo tee -a  ~/.bashrc
+ln -s ~/Programming/bash-scripts/windowmanager /usr/bin
+apt install -y wmctrl xdotool
+
+#keybinds
+perl keybindings.pl -i keybindings2.csv
+
+apt install -y firefox
+apt purge -y ephiphany*
+
+#install glances
+apt install -y python3-pip
+pip3 install glances

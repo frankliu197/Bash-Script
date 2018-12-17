@@ -1,4 +1,5 @@
 #!/bin/bash
+#LC_ALL="ja_JP.UTF-8" wine 
 
 shopt -s direxpand
 shopt -s expand_aliases
@@ -20,7 +21,10 @@ export SDA2=$MEDIA/sda2
 export DOWNLOADS=$HOME/Downloads
 export DOCUMENTS=$HOME/Documents
 export PROGRAMMING=$HOME/Programming
+export BASHSCRIPTS=$HOME/Programming/bash-scripts
 export PPA=/etc/apt/sources.list.d
+export GAMES=$HOME/Games
+export WINEENV=$GAMES/wineenv
 
 # PKILL (args) [starting]
 # PKILL used to kill all processes that match your given match string in ps aux
