@@ -7,7 +7,7 @@
 # this tells the screen to move the window to the right-bottom fourth of the screen
 
 #define the height in px of the top system-bar:
-TOPMARGIN=0
+TOPMARGIN=10
 RIGHTMARGIN=0
 # get width of screen and height of screen
 SCREEN_WIDTH=$(xwininfo -root | awk '$1=="Width:" {print $2}')
@@ -23,9 +23,10 @@ currentapp=$(xdotool getactivewindow)
 for app in "${apps[@]}"; do
   if [[ $currentapp == $app ]]; then
     SCREEN_WIDTH=2078
-    SCREEN_HEIGHT=1198
+    SCREEN_HEIGHT=1400
+    TOPMARGIN=95
     X0=-150
-    Y0=-70
+    Y0=-150
     break
   fi
 done

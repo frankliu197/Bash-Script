@@ -25,6 +25,7 @@ export BASHSCRIPTS=$HOME/Programming/bash-scripts
 export PPA=/etc/apt/sources.list.d
 export GAMES=$HOME/Games
 export WINEENV=$GAMES/wineenv
+export XKB=/usr/share/X11/xkb
 
 # PKILL (args) [starting]
 # PKILL used to kill all processes that match your given match string in ps aux

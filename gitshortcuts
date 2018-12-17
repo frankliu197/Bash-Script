@@ -16,8 +16,8 @@ git () {
     echo Commiting \"$commitname\"
     git commit -A "$commitname"
     echo
-    echo Pushing branch $(git branch | grep "*" | awk '{print $2}') to Origin
-    command git push origin $(git branch | grep "*" | awk '{print $2}') ${@:3:$#-3}
+    echo Excecuting: git push ${@:3:$#-3}
+    command git push ${@:3:$#-3}
   elif [[ $1 == "init" ]]; then
     # init, create a repository on github, commit and push
     command git init
