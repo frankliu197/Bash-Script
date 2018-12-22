@@ -60,13 +60,9 @@ sudo apt install ./*.deb
 # key: YGQ2J-Q26GM-R8FF8-JDC7M-KKGMV
 
 sudo apt install -y nodejs
-sudo apt install -y default-jre
-sudo apt install -y default-jdk
-sudo apt install -y openjdk-11-jdk
 
-#pycharm
-sudo add-apt-repository -y ppa:mystic-mirage/pycharm
-sudo add-apt-repositoy -y ppa:ubuntuhandbook1/apps
-
-sudo apt update
-sudo apt install -y pycharm  intellij-idea-ultimate
+#pycharm and intellij and java
+sudo apt install default-jdk
+add-apt-repository -y ppa:linuxuprising/java
+sudo apt get update
+apt-get install oracle-java11-installer

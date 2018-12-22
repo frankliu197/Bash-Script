@@ -7,13 +7,12 @@ git () {
   if [[ $1 == "commit" ]] && [[ $2 == "-A" ]]; then 
     # Adds a -A option to commit that does the command:
     # git add .
-    echo "${@:$#}"
+    echo Commiting: "${@:$#}"
     command git add .
-    command git commit -m "${@:$#}"
+    command git commit -m  "${@:$#}"
   elif [[ $1 == "push" ]] && [[ $2 == "-C" ]]; then 
     lastarg=${@:$#}
     commitname="${lastarg:-no name}"
-    echo Commiting \"$commitname\"
     git commit -A "$commitname"
     echo
     echo Excecuting: git push ${@:3:$#-3}

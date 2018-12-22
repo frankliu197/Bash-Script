@@ -1,0 +1,2 @@
+#!/bin/bash
+fcitx-remote -s fcitx-keyboard-us-custom_us

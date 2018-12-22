@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#if [ $# -eq 9 ];then
+#  echo -e "Usage: `basename $0` PROGRAM_NAME\n PROGRAM_NAME_COMMAND
+#           PROGRAM_NAME_COMMAND only needed if different than PROGRAM_NAME
+#           For example:\n\t
+#           '`basename $0` gnome-terminal' for Terminal\n\t
+#           '`basename $0` firefox' for Firefox\n\t
+#           '`basename $0` chromium-browser' for Chromium\n\t..."
+#  exit 1
+#fi
+
+
+#pids=" $(pidof $@) "
+#pids=$(echo " $(wmctrl -lx | awk '{print $2 $3}' | grep "$1" | awk '{print $3}') " " $(pidof $1) ")
+
+pids=$(wmctrl -lxp | awk '{print $4" "$3}' | grep -i "$1" | awk '{print $2}')
+echo $pids
+
+wmctrl -lpx
+while read identity desktop_number PID application computer window_title; do 
+    if [ "${pids//$PID}" != "$pids" ]; then
+      newsession=1
+        echo "Sending $application to the front"
+        wmctrl -ia $identity
+    fi
+  done <<<$(wmctrl -lpx)
+
+if [[ -z $newsession ]]; then
+    echo "There is no program named '$@' opened at the moment."
+    echo Creating new ${2-$1} session
+    ${2-$1} &
+fi
+

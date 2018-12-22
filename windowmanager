@@ -1,6 +1,5 @@
 #!/bin/bash
 # AUTHOR: frankliu197
-# SPECIAL THANKS: https://unix.stackexchange.com/questions/53150/how-do-i-resize-the-active-window-to-50-with-wmctrl, rubo77
 #
 # USAGE:
 # windowmanager [right/left] [top/bottom] OR windowmanager [top/bottom] [right/left] # By default window manager will change your window to full screen. By specifying top, bottom, right or left, you specify which half of the screen you want the current window to take.  # e.g. windowmanager right bottom

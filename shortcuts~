@@ -30,8 +30,6 @@ export XKB=/usr/share/X11/xkb
 export AUTOSTART=~/.config/autostart 
 export C_DRIVE32=~/.wine/drive_c
 export C_DRIVE=~/.wine64/drive_c
-export DESKTOP=/usr/share/applications
-export DESKTOPLOCAL=~/.local/share/applications
 
 # PKILL (args) [starting]
 # PKILL used to kill all processes that match your given match string in ps aux
