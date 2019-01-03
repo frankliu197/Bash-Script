@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/bash 
 # Creates aliases for multiple git functions 
 # must install hub 
 # sudo add-apt-repository ppa:cpick/hub
@@ -22,7 +21,7 @@ git () {
     command git init
     hub create
     if [[ ! -f README.md ]]; then touch README.md; fi
-    git push -C "First Commit" 
+    git push -C origin master "First Commit" 
   else 
     command git "$@"
   fi

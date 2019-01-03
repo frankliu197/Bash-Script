@@ -7,3 +7,4 @@ windscribe login
 windscribe connect
 
 sudo apt-get install deluge
+sudo apt install audacious

@@ -1,0 +1,79 @@
+#!/bin/bash
+
+#PLACES TO FIND DESKTOP ICONS
+LOCAL=$HOME/.local/share/applications
+NONLOCAL=/usr/share/applications
+
+#DEFAULT Values
+Location=$NONLOCAL
+Type=Application
+
+if [[ $1 == "-f" ]]; then
+  grep -R -i "$2" $NONLOCAL | grep "Name="
+  grep -R -i "$2" $LOCAL | grep "Name="
+  exit 0
+fi
+
+Exec=$1
+Name=$Exec
+Terminal=false
+shift
+
+while test $# != 0
+do
+    case "$1" in
+    -n) Name=$2;;
+    -c) Comment=$2;;
+#    -C) Categories=$2;;
+    -t) Terminal=$2;;
+    -i) Icon=$2;;
+    -l) Location=$2;
+      location=${Location,,}
+      if [[ $location == local ]]; then
+        Location=$LOCAL
+      elif [[ ${location/-} == nonlocal ]]; then
+        Location=$NONLOCAL
+      fi
+      ;;
+    esac
+    shift 2
+done
+
+Icon=${Icon:-$Name}
+Comment=${Icon:-$Name}
+
+# Get root permissions for any location outside of $HOME
+if [[ ${Location/$HOME} == $Location ]] && ! [[ $(whoami) == "root" ]]; then
+  sudo $0 $Exec -n $Name -c $Comment" " -C $Categories" " -i $Icon" " -l $Location
+  exit 0
+elif [[ $(whoami) == "root" ]]; then
+  sudo=sudo
+fi
+
+
+file=$Location/$Name.desktop
+if ! [[ -f $file ]]; then
+  echo Creating a file at $file with the following contents:
+cat <<EOF | $sudo tee $file
+[Desktop Entry] 
+Name=$Name 
+Icon=$Icon 
+Type=$Type
+Comment=$Comment 
+Terminal=$Terminal
+Exec=$Exec 
+EOF
+
+else 
+  read -p "$file already exists. Re-edit the file with the given parameters?  " response
+  if ! [[ ${response,,} == y ]] && ! [[ ${response,,} == yes ]]; then 
+    exit 0
+  fi
+  
+  for arg in Name Icon Type Terminal Comment Exec; do
+    $sudo sed -i s/$arg=/$arg=$( eval \$$arg)/ $file
+  done
+fi
+
+
+

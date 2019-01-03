@@ -1,26 +1,11 @@
 #!/bin/bash
-#LC_ALL="ja_JP.UTF-8" wine 
-
-shopt -s direxpand
-shopt -s expand_aliases
-
-#app alias
-alias calculator=qalculate
-alias calendar=io.elementary.calendar
-alias code=io.elementary.code
-alias files=io.elementary.files
-alias music=io.elementary.music
-alias photos=io.elementary.photos
-alias videos=io.elementary.videos
-alias mail=pantheon-mail
+#LC_ALL="ja_JP.UTF-8" wine shopt -s direxpand shopt -s expand_aliases #app alias alias calculator=qalculate alias calendar=io.elementary.calendar alias code=io.elementary.code alias files=io.elementary.files alias music=io.elementary.music alias photos=io.elementary.photos alias videos=io.elementary.videos alias mail=pantheon-mail
 
 #simple CD commands
 shopt -s cdable_vars
 export MEDIA=/media/frankliu197
 export SDA1=$MEDIA/sda1
-export SDA2=$MEDIA/sda2
-export DOWNLOADS=$HOME/Downloads
-export DOCUMENTS=$HOME/Documents
+export DOWNLOADS=$HOME/Downloads export DOCUMENTS=$HOME/Documents
 export PROGRAMMING=$HOME/Programming
 export BASHSCRIPTS=$HOME/Programming/bash-scripts
 export PPA=/etc/apt/sources.list.d
@@ -28,8 +13,8 @@ export GAMES=$HOME/Games
 export WINEENV=$GAMES/wineenv 
 export XKB=/usr/share/X11/xkb 
 export AUTOSTART=~/.config/autostart 
-export C_DRIVE32=~/.wine/drive_c
-export C_DRIVE=~/.wine64/drive_c
+export DRIVE_C32=~/.wine32/drive_c
+export DRIVE_C=~/.wine/drive_c
 export DESKTOP=/usr/share/applications
 export DESKTOPLOCAL=~/.local/share/applications
 
@@ -37,13 +22,13 @@ export DESKTOPLOCAL=~/.local/share/applications
 # PKILL used to kill all processes that match your given match string in ps aux
 # args are the same as kill
 PKILL () {
-  ps aux | grep -i ${@:$#} | awk '{print $2}' |  xargs sudo kill ${@:1:$#-1} &> /dev/null
+  ps aux | grep -i ${@:$#} | awk '{print $2}' |  xargs sudo kill ${@:1:$#-1}
 }
 
 # Excecute this method using one of the aliases MOUNT/UMOUNT partition
-# (MOUNT/UMOUNT) partition
+# (MOUNT/UMOUNT) partition mountloc
 # - Will mount/umount the given disk to MEDIA/partition with read write permissions 
-# - Create/delete a cd_able var called PARTITION (the original partition name with CAPS), which links to the mount location (MEDIA/partition)
+# - Create/delete a cd_able var called PARTITION (the original partition name with CAPS), which links to the mount location (MEDIA/partition if mountloc not given)
 # Because a partition can also just be the disk itself, a partition is refered to a disk in this tutorial
 # You are allowed to reference the disk name using the diskname, disk's name along with /dev, 
 # and the disk's last letter (do not forget the partition number if you have one)
@@ -54,6 +39,9 @@ PKILL () {
 #
 # Your window's partition can also be referenced with w and window(s)
 mount_disk () {
+  #get sudo permission to continue
+  sudo echo $1ing partition: "$2" at location: "$MEDIA/${3:-$2}"
+
   defaultdisk=nvme0n1p #your default disk
   # to lower case and rid of trailing /
   p=$(echo "$2" | awk '{print tolower($0)}')
@@ -68,6 +56,7 @@ mount_disk () {
   elif [[ $p =~ ^/dev/[a-z]+[0-9]?$ ]]; then d=${p:5}; fi
 
   if [[ -z $d ]]; then
+    #if [[ $1 == umount ]] &&  folder is right. do this later
     echo Error no disk matching $p
     return 1
   fi
@@ -76,50 +65,55 @@ mount_disk () {
   # first umount the drive if mounted
   rmloc=$(mount | grep $disk | awk '{print $3}')
   if [[ $rmloc ]]; then 
-    umountmessage=$(sudo umount $disk)
+    umountmessage=$( sudo umount $disk 2>&1 )
     sudo rmdir $rmloc &> /dev/null
-
     if [[ $? ]]; then dirmessage=" and removed $rmloc"; fi
   fi
 
   #if command is umount, output message and return
   if [[ $1 == umount ]]; then
     if [[ -z $rmloc ]]; then                          #disk not mounted in the first place
-      echo $umountmessage $disk not mounted
+      echo $disk not mounted
       return 0
-    elif ! ( mount | grep $disk &> /dev/null ); then        #disk has been umounted 
-      unset $(echo $d | awk '{print toupper($0)}')    #unset previously set cdable_var
+    elif [[ -z $umountmessage ]]; then        #disk has been umounted 
+      unset $(echo $d | awk '{print toupper($0)}')          #unset previously set cdable_var
       echo $umountmessage Successfully umounted $disk $dirmessage
-      return 0 else                                              #Error occured echo $umountmessage Failed to umount $disk
+      return 0 
+    else                                              #Error occured 
+      echo $umountmessage
+      echo Failed to umount $disk
       return 1
     fi
   fi 
 
-
   #Create a folder for mounting
-  loc=$MEDIA/$d
+  loc=$MEDIA/${3:-$d}
+  echo Creating a directory at $loc
   sudo mkdir $loc &> /dev/null
 
   #MOUNT drive according to type
   if [[ $(lsblk -f | grep -i $d | awk '{print $2}') =~ ext[2-4] ]]; then
-    sudo mount $disk $loc 
-    state=$?
+    mountmessage=$( sudo mount $disk $loc 2>&1 )
     sudo chown $USER:$USER $loc
     sudo chmod 775 $loc
   else
-    sudo mount $disk $loc -o uid=$USER -o gid=$USER
-    state=$?
+    echo version 2
+    mountmessage=$( sudo mount $disk $loc -o uid=$USER -o gid=$USER 2>&1 )
+    echo version 2 end
   fi
 
-  if [[ $state ]]; then
+  if [[ -z $mountmessage ]]; then
     export $(echo $d | awk '{print toupper($0)}')=$loc      #set a cdable_var
     echo Successfully mount $disk at $loc
+    return 0
   else
+    echo $mountmessage
     echo Failed to mount $disk
+    return 1
   fi
-  return $state
 }
 
+# default vim opens this file
 vim () { 
   if [[ $# == 0 ]]; then 
     command vim $BASHSCRIPTS/shortcuts
@@ -128,6 +122,7 @@ vim () {
   fi
 }
 
+# default source sources ~/.profile
 source () {
   if [[ $# == 0 ]]; then
     command source ~/.profile
@@ -135,10 +130,30 @@ source () {
     command source "$@"
   fi
 }
+
+# adds the given file to /usr/bin
+addtobin() {
+  if [[ $1 == "-f" ]]; then
+    f="-f"
+    shift
+  fi
+
+  if [[ $1 == "-n" ]]; then
+    name=$2
+  fi
+  echo "command is sudo ln -s $f $PWD/${@:$#} /usr/bin/$name"
+  sudo ln -s $f $PWD/${@:$#} /usr/bin/$name
+}
+
 #command alias
-alias test2="echo ${1:-thisvar}"
-alias UMOUNT="mount_disk umount $1"
-alias MOUNT="mount_disk mount $1"
+alias UMOUNT="mount_disk umount"
+alias MOUNT="mount_disk mount"
 alias XCLIP="xclip -selection clipboard"
 alias applist="wmctrl -lxp"
+alias listapp="wmctrl -lxp"
+alias music="audacious"
+alias files="io.elementary.files"
+alias music-netease="netease-cloud-music"
+alias quickshred="sudo shred -vfuz -n 1"
+
 # bash set winetricks: ./env.sh winetricks d3dcompiler_43 xact_jun2010
