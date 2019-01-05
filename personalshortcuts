@@ -1,3 +1,2 @@
 #!/bin/bash
 alias mozc-config="/usr/lib/mozc/mozc_tool --mode=config_dialog"
-

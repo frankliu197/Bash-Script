@@ -38,8 +38,6 @@ do
     esac
     shift 2
 done
-
-Icon=${Icon:-$Name}
 Comment=${Icon:-$Name}
 
 # Get root permissions for any location outside of $HOME
@@ -71,7 +69,9 @@ else
   fi
   
   for arg in Name Icon Type Terminal Comment Exec; do
-    $sudo sed -i s/$arg=/$arg=$( eval \$$arg)/ $file
+    if [[ -n $( eval \$$arg) ]]; then
+      $sudo sed -i s/$arg=/$arg=$( eval \$$arg)/ $file
+    fi
   done
 fi
 
