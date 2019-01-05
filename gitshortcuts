@@ -10,18 +10,17 @@ git () {
     command git add .
     command git commit -m  "${@:$#}"
   elif [[ $1 == "push" ]] && [[ $2 == "-C" ]]; then 
-    lastarg=${@:$#}
-    commitname="${lastarg:-no name}"
+    commitname="${3:-no name}"
     git commit -A "$commitname"
     echo
-    echo Excecuting: git push ${@:3:$#-3}
-    command git push ${@:3:$#-3}
+    echo Excecuting: git push $4 $5 
+    command git push $4 $5
   elif [[ $1 == "init" ]]; then
     # init, create a repository on github, commit and push
     command git init
     hub create
     if [[ ! -f README.md ]]; then touch README.md; fi
-    git push -C origin master "First Commit" 
+    git push -C "First Commit" origin master  
   else 
     command git "$@"
   fi
