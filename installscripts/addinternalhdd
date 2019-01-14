@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#set up links
+mkdir -p /media/$USER/sda1
+mount /dev/sda1 /media/$USER/sda1
+folders=( Downloads Documents Pictures Videos )
+for arg in folders; do
+  rmdir ~/$arg
+  ln -s /media/$USER/sda1/$arg ~/
+done
+
+#setup hardrive on bootup 
+echo "
+$(lsblk -o name,UUID | grep sda1 | awk '{print $2}') /media/$USER/sda1 ext4 relatime,errors=remount-ro,discard 0 2" | sudo tee -a /etc/fstab
+

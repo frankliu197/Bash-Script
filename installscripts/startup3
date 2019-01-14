@@ -2,67 +2,89 @@
 
 echo you must download discord and sogou in downloads folder first
 #install wine
-sudo apt install wine64
-sudo dpkg --add-architecture i386 
+dpkg --add-architecture i386 
 wget -qO- https://dl.winehq.org/wine-builds/Release.key | sudo apt-key add -
-sudo apt-add-repository -y 'deb http://dl.winehq.org/wine-builds/ubuntu/ bionic main'
-sudo apt get update
-sudo apt-get install -y --install-recommends winehq-stable
-sudo apt install winbind
-cd "${HOME}/Downloads"
+apt-add-repository -y 'deb http://dl.winehq.org/wine-builds/ubuntu/ bionic main'
+apt get update
+apt-get install -y --install-recommends winehq-staging
+apt install winbind
+
 wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 chmod +x winetricks
-sudo cp winetricks /usr/local/bin
+mv winetricks /usr/local/bin
+
+#setup wine prefix
+git clone https://github.com/frankliu197/wineenv ~/Games/wineenv/
+mkdir ~/.wine ~/.wine32
+~/Games/wineenv/32.sh winecfg
+~/Games/wineenv/64.sh winecfg
 
 #install lutris
 ver=$(lsb_release -sr); if [ $ver != "18.10" -a $ver != "18.04" -a $ver != "16.04" ]; then ver=18.04; fi
 echo "deb http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/ ./" | sudo tee /etc/apt/sources.list.d/lutris.list
 wget -q https://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/Release.key -O- | sudo apt-key add -
-sudo apt -y update
-sudo apt -y install lutris
-
-#install glances
-sudo apt install -y python3-pip
-pip3 install glances
-pip3 install nvidia-ml-py3
+apt -y update
+apt -y install lutris
 
 #install steam
-sudo apt install -y steam
+apt install -y steam
 
-
-sudo apt install -y playonlinux
+#install play on linux
+apt install -y playonlinux
 
 # install google-chrome
 apt install -y google-chrome*
 
+# install fcitx (and fcitx-mozc)
 apt install -y fcitx
 apt install -y fcitx-mozc
 
-#install drio.io anki wechat discord
-cd DOWNLOADS
+#install  wechatd
+cd DOWNLOAD
 wget -O wechat.tar.gz "https://github.com/geeeeeeeeek/electronic-wechat/releases/download/V2.0/linux-x64.tar.gz"
-wget -O draw.io.deb https://github.com/jgraph/drawio-desktop/releases/download/v9.3.1/draw.io-amd64-9.3.1.deb
-wget -O anki.tar.bz2 https://apps.ankiweb.net/downloads/current/anki-2.1.6-linux-amd64.tar.bz2
 tar xzf wechat.tar.gz
-tar jxzf anki.tar.bz2
 rm wechat.tar.gz
-rm anki.tar.bz2
 mv *wechat* wechat
-mv *anki* anki
 mv wechat /opt/
+ln -s /opt/wechat/electronic-wechat /usr/bin
+
+#install draw.io
+wget -O draw.io.deb https://github.com/jgraph/drawio-desktop/releases/download/v9.3.1/draw.io-amd64-9.3.1.deb
+apt install ./*.deb
+rm *.deb
+
+#install anki
+wget -O anki.tar.bz2 https://apps.ankiweb.net/downloads/current/anki-2.1.6-linux-amd64.tar.bz2
+tar jxzf anki.tar.bz2
+rm anki.tar.bz2
+mv *anki* anki
 mv anki /opt/
 cd /opt/anki/
-sudo make install
-ln -s /opt/wechat/electronic-wechat /usr/bin
-cd DOWNLOADS
-sudo apt install ./*.deb
+ make install
+
 
 # key: YGQ2J-Q26GM-R8FF8-JDC7M-KKGMV
 
-sudo apt install -y nodejs
-
-#pycharm and intellij and java
-sudo apt install default-jdk
+#node js and java
+apt install -y nodejs
+apt install default-jdk
+apt install -y default-jre
 add-apt-repository -y ppa:linuxuprising/java
-sudo apt get update
+apt get update
 apt-get install oracle-java11-installer
+
+#need to add pycharm.tar
+tar -xzf pycharm*.tar.gz
+rm pycharm*.tar.gz
+mv *pycharm* pycharm
+mv pycharm /opt/
+ln -s /opt/pycharm/bin/pycharm.sh /usr/bin
+
+#need to add intellij
+tar -xzf idea*.tar.gz
+rm idea*.tar.gz
+mv *idea* intellij
+mv intellij /opt/
+ln -s /opt/intellij/bin/idea.sh /usr/bin
+
+

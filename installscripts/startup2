@@ -1,53 +1,72 @@
 #!/bin/bash
 
-echo sets up driver, links, fstab, git vim bashrc and keybinds, and grub-cutomizer and timeshift and firefox
-# add repositories
+# install grub customizer
 add-apt-repository -y ppa:danielrichter2007/grub-customizer
-add-apt-repository -y ppa:cpick/hub
+apt update
+apt install -y grub-customizer
+
+#install timeshift
 add-apt-repository -y ppa:teejee2008/ppa
 apt update
-
-
-#set up links
-mkdir -p /media/frankliu197/sda1 /media/frankliu197/sda2
-mount /dev/sda1 /media/frankliu197/sda1
-mount /dev/sda2 /media/frankliu197/sda2
-rmdir ~/Downloads ~/Documents ~/Pictures ~/Videos
-ln -s /media/frankliu197/sda1/* ~/
-ln -s /media/frankliu197/sda2/* ~/
-
-#setup hardrive on bootup 
-echo '
-UUID=bd64816b-233e-4e45-b51c-5707f22949c0 /media/frankliu197/sda1 ext4 relatime,errors=remount-ro,discard 0 2
-UUID=62fad103-5b1e-45a5-938f-28e76ca5f0c2 /media/frankliu197/sda2 ext4 relatime,errors=remount-ro,discard 0 2' | sudo tee -a /etc/fstab
-
-#set up driver and grub and timeshift
-apt install -y software-properties-gtk grub-customizer
 apt install -y timeshift
 
-#install basic stuff
-apt install -y pavucontrol baobab
-apt install -y xpad pinta qalculate
+#install various software
+apt install -y software-properties-gtk
+apt install -y pavucontrol
+apt install -y baobab
+apt install -y xpad
+apt install -y pinta
+apt install -y qalculate
+apt install -y audacious
 
-#install git and vim
-apt install -y git vim vim-gtk hub xsel
+#install git/hub
+add-apt-repository -y ppa:cpick/hub
+apt update
+apt install -y git hub
+
+#install vim
+apt install -y vim vim-gtk xsel
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# add on personal changes
+mkdir $HOME/Programming/
+git clone https://github.com/frankliu197/Compose $HOME/Programming/
+git clone https://github.com/frankliu197/bash-scripts $HOME/Programming/
 ln -s ~/Programming/bash-scripts/.vimrc ~/
 vim +PluginInstall +qall
 
-#setup bashrc and windowmanager
 echo '
 . ~/Programming/bash-scripts/shortcuts
-. ~/Programming/bash-scripts/gitshortcuts' | sudo tee -a  ~/.bashrc
-ln -s ~/Programming/bash-scripts/windowmanager /usr/bin
+. ~/Programming/bash-scripts/gitshortcuts
+. ~/Programming/bash-scripts/personalshortcuts' | sudo tee -a  ~/.bashrc
+
+for i in windowmanager windowselector desktopshortcuts; do
+  ln -s ~/Programming/bash-scripts/$i /usr/bin
+done
+
+# not garenteed to work
+# $HOME/Programming/Compose/install
+
+#install software for my repositories
 apt install -y wmctrl xdotool
 
 #keybinds
-perl keybindings.pl -i keybindings2.csv
+perl $HOME/Programming/bash-scripts/installscripts/keybindings/keybindings.pl -i $HOME/Programming/bash-scripts/installscripts/keybindings/keybindings.csv
 
-apt install -y firefox
+# install firefox
+apt install -y firefox 
 apt purge -y ephiphany*
 
 #install glances
 apt install -y python3-pip
 pip3 install glances
+
+#install windscribe
+apt-key adv --keyserver keyserver.ubuntu.com --recv-key FDC247B7
+'deb https://repo.windscribe.com/ubuntu zesty main' | sudo tee /etc/apt/sources.list.d/windscribe-repo.list
+sudo apt update
+apt install windscribe-cli
+windscribe login
+
+#install deluge
+apt-get install deluge

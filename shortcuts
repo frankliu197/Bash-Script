@@ -3,7 +3,7 @@
 
 #simple CD commands
 shopt -s cdable_vars
-export MEDIA=/media/frankliu197
+export MEDIA=/media/$USER
 export SDA1=$MEDIA/sda1
 export DOWNLOADS=$HOME/Downloads export DOCUMENTS=$HOME/Documents
 export PROGRAMMING=$HOME/Programming

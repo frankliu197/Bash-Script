@@ -6,7 +6,11 @@ org.gnome.desktop.wm.keybindings	move-to-workspace-9	['<Super><Shift>9']
 org.gnome.desktop.wm.keybindings	move-to-monitor-left	['<Super><Shift>n']
 org.gnome.desktop.wm.keybindings	move-to-workspace-5	['<Super><Shift>5']
 org.gnome.desktop.wm.keybindings	move-to-workspace-6	['<Super><Shift>6']
-org.gnome.desktop.wm.keybindings	move-to-workspace-10	[] org.gnome.desktop.wm.keybindings	move-to-workspace-11	[] org.gnome.desktop.wm.keybindings	move-to-workspace-12	[] org.gnome.desktop.wm.keybindings	move-to-center	['<Super><Alt><Shift>s'] org.gnome.desktop.wm.keybindings	unmaximize	[]
+org.gnome.desktop.wm.keybindings	move-to-workspace-10	[]
+org.gnome.desktop.wm.keybindings	move-to-workspace-11	[]
+org.gnome.desktop.wm.keybindings	move-to-workspace-12	[]
+org.gnome.desktop.wm.keybindings	move-to-center	['<Super><Alt><Shift>s']
+org.gnome.desktop.wm.keybindings	unmaximize	[]
 org.gnome.desktop.wm.keybindings	panel-main-menu	['<Super>F1']
 org.gnome.desktop.wm.keybindings	cycle-windows	[]
 org.gnome.desktop.wm.keybindings	cycle-panels-backward	[]
@@ -39,7 +43,7 @@ org.gnome.desktop.wm.keybindings	switch-input-source-backward	[]
 org.gnome.desktop.wm.keybindings	move-to-workspace-last	[]
 org.gnome.desktop.wm.keybindings	lower	[]
 org.gnome.desktop.wm.keybindings	cycle-panels	[]
-org.gnome.desktop.wm.keybindings	toggle-fullscreen	['<Super><Shift>f']
+org.gnome.desktop.wm.keybindings	toggle-fullscreen	['<Super>f']
 org.gnome.desktop.wm.keybindings	toggle-on-all-workspaces	[]
 org.gnome.desktop.wm.keybindings	move-to-monitor-up	['<Super><Shift>less']
 org.gnome.desktop.wm.keybindings	move-to-corner-sw	['<Super><Alt><Shift>z']
@@ -55,7 +59,7 @@ org.gnome.desktop.wm.keybindings	switch-applications-backward	[]
 org.gnome.desktop.wm.keybindings	maximize-vertically	[]
 org.gnome.desktop.wm.keybindings	switch-to-workspace-7	['<Super>7']
 org.gnome.desktop.wm.keybindings	switch-to-workspace-5	['<Super>5']
-org.gnome.desktop.wm.keybindings	show-desktop	['<Shift><Alt>Tab']
+org.gnome.desktop.wm.keybindings	show-desktop	['<Super>Tab']
 org.gnome.desktop.wm.keybindings	switch-to-workspace-8	['<Super>8']
 org.gnome.desktop.wm.keybindings	switch-to-workspace-9	['<Super>9']
 org.gnome.desktop.wm.keybindings	switch-to-workspace-6	['<Super>6']
@@ -80,7 +84,7 @@ org.gnome.desktop.wm.keybindings	move-to-workspace-3	['<Super><Shift>3']
 org.gnome.desktop.wm.keybindings	move-to-workspace-4	['<Super><Shift>4']
 org.gnome.desktop.wm.keybindings	switch-to-workspace-right	['<Super>l']
 org.gnome.settings-daemon.plugins.power	button-power	'suspend'
-org.gnome.settings-daemon.plugins.power	power-button-action	'suspend'
+org.gnome.settings-daemon.plugins.power	power-button-action	'nothing'
 org.gnome.settings-daemon.plugins.power	button-hibernate	'hibernate'
 org.gnome.settings-daemon.plugins.power	button-suspend	'suspend'
 org.gnome.settings-daemon.plugins.power	button-sleep	'hibernate'
@@ -138,11 +142,11 @@ custom	'windowmanager right top'	'windowmanager right top'	'<Super>e'
 custom	'windowmanager'	'windowmanager'	'<Super>s'
 custom	'windowmanager bottom left'	'windowmanager bottom left'	'<Super>z'
 custom	'windowmanager bottom right'	'windowmanager bottom right'	'<Super>c'
-custom	'audacious'	'audacious'	
+custom	'io.elementary.files /home/frankliu197'	'io.elementary.files /home/frankliu197'	'<Primary><Alt>e'
 custom	'qalculate'	'qalculate'	'<Primary><Alt>Break'
 custom	'io.elementary.photos'	'io.elementary.photos'	'<Primary><Shift><Alt>p'
 custom	'io.elementary.videos'	'io.elementary.videos'	'<Primary><Shift><Alt>v'
-custom	'pavucontrol'	'pavucontrol'	'<Primary><Alt>m'
+custom	'windowselector pavucontrol'	'windowselector pavucontrol'	'<Primary><Alt>m'
 custom	'reboot'	'reboot'	'<Primary><Shift><Alt><Super>F6'
 custom	'systemctl suspend'	'systemctl suspend'	'<Primary><Shift><Alt><Super>F2'
 custom	'systemctl hibernate'	'systemctl hibernate'	
@@ -151,16 +155,21 @@ custom	'firefox facebook'	'firefox facebook'	'<Primary><Shift><Alt>f'
 custom	'shutdown now'	'shutdown now'	'<Primary><Shift><Alt><Super>F5'
 custom	'io.elementary.terminal'	'io.elementary.terminal'	'<Primary><Shift><Alt>t'
 custom	'windowselector "winword" "/usr/share/playonlinux/playonlinux --run \\"Microsoft Word 2010\\" "'	'windowselector \"winword\" \"/usr/share/playonlinux/playonlinux --run \\\"Microsoft Word 2010\\\" \"'	'<Primary><Alt>o'
-custom	'windowselector ddlc "/home/frankliu197/Games/DDLC-1.1.1-pc/DDLC.sh"'	'windowselector ddlc \"/home/frankliu197/Games/DDLC-1.1.1-pc/DDLC.sh\"'	'<Alt>F1'
+custom	'windowselector ddlc "/home/frankliu197/Games/DDLC-1.1.1-pc/DDLC.sh"'	'windowselector ddlc \"/home/frankliu197/Games/DDLC-1.1.1-pc/DDLC.sh\"'	'<Alt><Super>F1'
 custom	'windowselector io.elementary.switchboard "io.elementary.switchboard keyboard"'	'windowselector io.elementary.switchboard \"io.elementary.switchboard keyboard\"'	'<Primary><Alt>Home'
 custom	'mozc switch to katakana is shift f11'	'mozc switch to katakana is shift f11'	
 custom	'mozc swithc to hiragana is shift f10'	'mozc swithc to hiragana is shift f10'	
 custom	'io.elementary.calendar'	'io.elementary.calendar'	'<Primary><Alt>c'
-custom	'audacious -t'	'audacious -t'	'<Super>F10'
-custom	'audacious -r'	'audacious -r'	'<Super>F11'
-custom	'audacious -f'	'audacious -f'	'<Super>F12'
+custom	'audacious -t'	'audacious -t'	'<Alt>F12'
+custom	'audacious -r'	'audacious -r'	'<Alt>Print'
+custom	'audacious -f'	'audacious -f'	'<Alt>Pause'
 custom	'gnome-screensaver-command -l'	'gnome-screensaver-command -l'	'<Primary><Shift><Alt><Super>F1'
 custom	'/home/frankliu197/Programming/bash-scripts/keyboardshortcutreset'	'/home/frankliu197/Programming/bash-scripts/keyboardshortcutreset'	'<Primary><Shift><Alt><Super>Home'
 custom	'gnome-session-quit --no-prompt'	'gnome-session-quit --no-prompt'	'<Primary><Shift><Alt><Super>F4'
 custom	'pantheon-mail'	'pantheon-mail'	'<Primary><Shift><Alt>e'
 custom	'windowselector audacious '	'windowselector audacious '	'<Primary><Shift><Alt>m'
+custom	'windowselector io.elementary.code'	'windowselector io.elementary.code'	'<Primary><Alt>n'
+custom	'windowselector netease-cloud-music'	'windowselector netease-cloud-music'	'<Primary><Alt>w'
+custom		''	'<Shift>F12'
+custom	'firefox github'	'firefox github'	'<Primary><Shift><Alt>g'
+custom	'firefox https://culearn.carleton.ca/moodle/my/'	'firefox https://culearn.carleton.ca/moodle/my/'	'<Primary><Shift><Alt>c'

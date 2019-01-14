@@ -3,7 +3,6 @@
 #PLACES TO FIND DESKTOP ICONS
 LOCAL=$HOME/.local/share/applications
 NONLOCAL=/usr/share/applications
-
 #DEFAULT Values
 Location=$NONLOCAL
 Type=Application
@@ -24,7 +23,6 @@ do
     case "$1" in
     -n) Name=$2;;
     -c) Comment=$2;;
-#    -C) Categories=$2;;
     -t) Terminal=$2;;
     -i) Icon=$2;;
     -l) Location=$2;
@@ -33,8 +31,7 @@ do
         Location=$LOCAL
       elif [[ ${location/-} == nonlocal ]]; then
         Location=$NONLOCAL
-      fi
-      ;;
+      fi ;;
     esac
     shift 2
 done
@@ -69,10 +66,14 @@ else
   fi
   
   for arg in Name Icon Type Terminal Comment Exec; do
-    if [[ -n $( eval \$$arg) ]]; then
-      $sudo sed -i s/$arg=/$arg=$( eval \$$arg)/ $file
+    if [[ -n ${!arg/ } ]]; then
+
+      $sudo sed -i "s@^$arg=.*\$@$arg=${!arg}@" $file
+      echo "$sudo sed -i s/$arg=/$arg=${!arg}/ $file"
     fi
   done
+  echo $file has changed to:
+  cat $file
 fi
 
 
