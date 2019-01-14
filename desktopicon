@@ -1,23 +1,54 @@
 #!/bin/bash
+# @author frankliu197
+# @date December 2018
+# 
+# Note to Shopify: Although this script is not very difficult to code and does not contain a lot of programming
+# concepts (such as multithreading/Data Structures/Algorithms), because I haven't coded "non=-scripting  projects" for a while,
+# This is a good example of the various programming projects I do on my own time. I am adept with Linux and have used some
+# backend frameworks (such as Flask) so I could make a large impact regarding server-side code.
+#
+# desktopicon:
+# A script that manages .desktop files in Debian-based Linux distributions in the folders:
+# User desktop files: ~/.local/share/applications (alias user)
+# System desktop files: /usr/share/applications (alias system)
+# 
+# * Listing .desktop files:
+#   Format: desktopicon -f [search_term]
+#   Lists all desktop files (in the user and system folders) that match the given search term
+#
+# * Creating/Editing .desktop files:
+#   Format: deskopicon [execution] [other_optional_arguments]
+#   Creates a .desktop file with the given parameters: 
+#     [execution]   - the command the execute the program
+#     -n [name]     - the name of the program (default value is the command to execute the program)
+#     -c [comment]  - a comment regarding the program (default value is null)
+#     -t [boolean]  - parameter to open the program in terminal or not (default value is false)
+#     -i [icon]     - the location of the icon to show with the desktop icon (default icon is the settings icon)
+#     -l [location] - the location to create/store the newly created desktop icon 
+#                     the recommended parameters to use are the aliases: user and system, default value being the system folder
+#
 
-#PLACES TO FIND DESKTOP ICONS
-LOCAL=$HOME/.local/share/applications
-NONLOCAL=/usr/share/applications
-#DEFAULT Values
-Location=$NONLOCAL
-Type=Application
+# Default places to find .desktop files
+user=$HOME/.local/share/applications
+system=/usr/share/applications
 
+# command is to find a certain desktop file
 if [[ $1 == "-f" ]]; then
-  grep -R -i "$2" $NONLOCAL | grep "Name="
-  grep -R -i "$2" $LOCAL | grep "Name="
+  grep -R -i "$2" $user | grep "Name="
+  grep -R -i "$2" $system | grep "Name="
   exit 0
 fi
 
+
+# Default values
 Exec=$1
 Name=$Exec
+Location=$system
+Type=Application
 Terminal=false
 shift
 
+# Change the default value according to the command
 while test $# != 0
 do
     case "$1" in
@@ -26,18 +57,18 @@ do
     -t) Terminal=$2;;
     -i) Icon=$2;;
     -l) Location=$2;
-      location=${Location,,}
-      if [[ $location == local ]]; then
-        Location=$LOCAL
-      elif [[ ${location/-} == nonlocal ]]; then
-        Location=$NONLOCAL
+      # check for user/system aliases
+      l=${Location,,}
+      if [[ $l == user ]]; then
+        Location=$user
+      elif [[ $l == system ]]; then
+        Location=$system
       fi ;;
     esac
     shift 2
 done
-Comment=${Icon:-$Name}
 
-# Get root permissions for any location outside of $HOME
+# Re-execute script with sudo permissions if the location of the desktop script is not in the HOME folder
 if [[ ${Location/$HOME} == $Location ]] && ! [[ $(whoami) == "root" ]]; then
   sudo $0 $Exec -n $Name -c $Comment" " -C $Categories" " -i $Icon" " -l $Location
   exit 0
@@ -45,9 +76,14 @@ elif [[ $(whoami) == "root" ]]; then
   sudo=sudo
 fi
 
-
+# file location of the desktop file
 file=$Location/$Name.desktop
+
+
+# Checks if the .desktop file exists
 if ! [[ -f $file ]]; then
+
+  # if the .desktop file does not exist, create a new .desktop file with the given params
   echo Creating a file at $file with the following contents:
 cat <<EOF | $sudo tee $file
 [Desktop Entry] 
@@ -60,18 +96,24 @@ Exec=$Exec
 EOF
 
 else 
+
+  # if the .desktop file does exists, edit the .desktop file with the given params (given that the user gives his/her permission)
   read -p "$file already exists. Re-edit the file with the given parameters?  " response
+
+  # Exit if user does not agree to edit the .desktop file
   if ! [[ ${response,,} == y ]] && ! [[ ${response,,} == yes ]]; then 
     exit 0
   fi
   
+  # Change each argument in the .desktop file with the given argument in the script using sed
   for arg in Name Icon Type Terminal Comment Exec; do
-    if [[ -n ${!arg/ } ]]; then
 
+    # before using sed, check if arg=null (which in this case no changes should be made)
+    if [[ -n ${!arg/ } ]]; then 
       $sudo sed -i "s@^$arg=.*\$@$arg=${!arg}@" $file
-      echo "$sudo sed -i s/$arg=/$arg=${!arg}/ $file"
     fi
   done
+
   echo $file has changed to:
   cat $file
 fi
