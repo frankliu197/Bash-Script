@@ -2,9 +2,9 @@
 # @author frankliu197
 # @date December 2018
 # 
-# Note to Shopify: Although this script is not very difficult to code and does not contain a lot of programming
-# concepts (such as multithreading/Data Structures/Algorithms), because I haven't coded "non=-scripting  projects" for a while,
-# This is a good example of the various programming projects I do on my own time. I am adept with Linux and have used some
+# Note to Shopify: Although this script does not contain a lot of programming
+# concepts (such as multithreading/Data Structures/Algorithms), This is a good example of the various programming
+# projects I do on my own time. I have not programmed a "non-script program" for awhile now.  I am adept with Linux and have used some
 # backend frameworks (such as Flask) so I could make a large impact regarding server-side code.
 #
 # desktopicon:

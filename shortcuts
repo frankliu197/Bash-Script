@@ -155,5 +155,8 @@ alias music="audacious"
 alias files="io.elementary.files"
 alias music-netease="netease-cloud-music"
 alias quickshred="sudo shred -vfuz -n 1"
+alias logisim="java -jar /opt/logisim/logisim-generic-2.7.1.jar"
+alias wpe="et"
 
 # bash set winetricks: ./env.sh winetricks d3dcompiler_43 xact_jun2010
+

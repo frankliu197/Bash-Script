@@ -69,4 +69,7 @@ apt install windscribe-cli
 windscribe login
 
 #install deluge
-apt-get install deluge
+apt install deluge
+
+# install WPS
+apt install wps-office
