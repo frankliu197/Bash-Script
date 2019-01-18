@@ -17,6 +17,7 @@ ssh-keygen -t rsa -b 4096 -C "frankliu197@gmail.com" #insert your email
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 xclip -sel clip < ~/.ssh/id_rsa.pub
+git config credential.helper store
 
 #install software for my repositories
 apt install -y wmctrl xdotool
