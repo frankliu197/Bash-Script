@@ -1,5 +1,37 @@
 #!/bin/bash
 
+
+#install timeshift
+add-apt-repository -y ppa:teejee2008/ppa
+apt update
+apt install -y timeshift
+
+#install various software
+apt install -y pavucontrol
+apt install -y baobab
+apt install -y xpad
+apt install -y pinta
+apt install -y qalculate
+apt install -y audacious
+
+
+#install glances
+apt install -y python3-pip
+pip3 install glances
+
+#install windscribe
+apt-key adv --keyserver keyserver.ubuntu.com --recv-key FDC247B7
+'deb https://repo.windscribe.com/ubuntu zesty main' | sudo tee /etc/apt/sources.list.d/windscribe-repo.list
+sudo apt update
+apt install windscribe-cli
+windscribe login
+
+#install deluge
+apt install deluge
+
+# install WPS
+apt install wps-office
+
 echo you must download discord and sogou in downloads folder first
 #install wine
 dpkg --add-architecture i386 

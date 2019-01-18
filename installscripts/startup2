@@ -1,37 +1,40 @@
 #!/bin/bash
 
-# install grub customizer
-add-apt-repository -y ppa:danielrichter2007/grub-customizer
-apt update
-apt install -y grub-customizer
-
-#install timeshift
-add-apt-repository -y ppa:teejee2008/ppa
-apt update
-apt install -y timeshift
-
-#install various software
+# manage drivers
 apt install -y software-properties-gtk
-apt install -y pavucontrol
-apt install -y baobab
-apt install -y xpad
-apt install -y pinta
-apt install -y qalculate
-apt install -y audacious
 
 #install git/hub
 add-apt-repository -y ppa:cpick/hub
 apt update
-apt install -y git hub
+apt install -y git hub xclip
+
+#add ssh
+echo Ignore the next 2 questions and press enter only
+ssh-keygen -t rsa -b 4096 -C "frankliu197@gmail.com" #insert your email
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+xclip -sel clip < ~/.ssh/id_rsa.pub
+
+#install software for my repositories
+apt install -y wmctrl xdotool
+
+# install firefox
+apt install -y firefox 
+apt purge -y epiphany-browser
 
 #install vim
 apt install -y vim vim-gtk xsel
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
+# install grub customizer
+add-apt-repository -y ppa:danielrichter2007/grub-customizer
+apt update
+apt install -y grub-customizer
+
 # add on personal changes
 mkdir $HOME/Programming/
-git clone https://github.com/frankliu197/Compose $HOME/Programming/
-git clone https://github.com/frankliu197/bash-scripts $HOME/Programming/
+git clone https://github.com/frankliu197/Compose $HOME/Programming/Compose
+git clone https://github.com/frankliu197/bash-scripts $HOME/Programming/bash-scripts
 ln -s ~/Programming/bash-scripts/.vimrc ~/
 vim +PluginInstall +qall
 
@@ -44,32 +47,15 @@ for i in windowmanager windowselector desktopshortcuts; do
   ln -s ~/Programming/bash-scripts/$i /usr/bin
 done
 
-# not garenteed to work
-# $HOME/Programming/Compose/install
-
-#install software for my repositories
-apt install -y wmctrl xdotool
+#install custom keyboard
+$HOME/Programming/Compose/install
 
 #keybinds
 perl $HOME/Programming/bash-scripts/installscripts/keybindings/keybindings.pl -i $HOME/Programming/bash-scripts/installscripts/keybindings/keybindings.csv
 
-# install firefox
-apt install -y firefox 
-apt purge -y ephiphany*
+#remove shortcut overlay
+apt remove io.elementary.shortcut-overlay
 
-#install glances
-apt install -y python3-pip
-pip3 install glances
+echo use "xclip -sel clip < ~/.ssh/id_rsa.pub" to copy your github ssh.  
 
-#install windscribe
-apt-key adv --keyserver keyserver.ubuntu.com --recv-key FDC247B7
-'deb https://repo.windscribe.com/ubuntu zesty main' | sudo tee /etc/apt/sources.list.d/windscribe-repo.list
-sudo apt update
-apt install windscribe-cli
-windscribe login
 
-#install deluge
-apt install deluge
-
-# install WPS
-apt install wps-office
