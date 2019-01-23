@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+# USAGE: volume <--volume-up or --volume-down> [application]
+# First argument mandatory and changes volume up or down by 4%
+# if second argument not given, the selected application is used instead
+#
+
+
+# getting sinkidentities 
+sinkidentity=($(pactl list short sink-inputs | awk '{print $1}' | sed 's/:.*//'))
+
+# getting sinkidentities' class
+a=($(pactl list sink-inputs | grep 'application.process.binary' | awk '{print $3}' | sed 's/:.*//'))
+echo "${a[@]}"
+applist=()
+for i in "${a[@]}"; do
+	echo $i
+	applist+=(${i//\"})
+done
+
+# getting currentapp
+if [[ -n $2 ]]; then
+	currentapp=${2,,}
+else
+	a=$(wmctrl -lxp | grep $(xdotool getwindowfocus getwindowpid) | awk '{print $4}')
+	dots=$(expr $(awk -F"." '{print NF-1}' <<< "$a") / 2)
+	for i in `seq 0 $dots`; do 
+	 	a=${a#*\.}
+	done
+	currentapp=${a,,}
+fi
+
+echo apps: ${applist[0]}
+echo currentapp: $currentapp
+
+#current script not meant for anything but --volume-up and --volume-down
+if [[ $1 == --volume-up ]]; then
+	option=+
+elif [[ $1 == --volume-down ]]; then 
+	option=-
+fi
+
+for a in `seq 0 $(expr ${#applist[@]} - 1)`; do
+	echo ${applist[$a]}
+	echo  once twice
+	if [[ $currentapp == *${applist[$a]}* ]]; then
+		match=1
+		pactl set-sink-input-volume ${sinkidentity[$a]} ${option}4% 	
+	fi	
+done
+
+if [[ -z $match ]]; then
+	echo no match found for $currentapp
+fi
+#gsettings set org.gnome.settings-daemon.plugins.media-keys increase-text-size "curr:$currentapp match:$match"
+
+

@@ -66,11 +66,6 @@ filetype plugin indent on    " required
 
 filetype plugin indent on
 syntax on
-filetype plugin indent on
-set tabstop=1
-set softtabstop=2
-set smarttab
-syntax on
 
 let mapleader=" "
 set number
@@ -86,10 +81,7 @@ set nowrap
 set pastetoggle=<F2>
 
 set tabstop=2
-set softtabstop=2
 set shiftwidth=2
-set expandtab
-
 "nnoremap <F5> :UndotreeToggle<cr>
 
 "fixes pasting problem

@@ -17,7 +17,11 @@ X0=0
 Y0=0
 
 #make array of all the apps that act differently to resizing and check if the current app is one of them
-apps=( $(xdotool search --class io.elementary) $(xdotool search --class pantheon) $(xdotool search --class Firefox) $(xdotool search --class evince) )
+a=( io.elementary pantheon Firefox evince drracket rhythmbox )
+for i in "${a[@]}"; do
+ 	apps+=( $(xdotool search --class $i) )
+done
+
 currentapp=$(xdotool getactivewindow)
 for app in "${apps[@]}"; do
   if [[ $currentapp == $app ]]; then

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+v=$(rhythmbox-client --print-volume | awk '{print $4}')
+v=${v:0:-1}
+if [[ $1 == --volume-up ]]; then
+	rhythmbox-client --set-volume $(echo $v + 0.04 | bc -l)
+elif [[ $1 == --volume-down ]]; then
+	rhythmbox-client --set-volume $(echo $v - 0.04 | bc -l)
+fi
