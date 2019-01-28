@@ -116,7 +116,7 @@ mount_disk () {
 # default vim opens this file
 vim () { 
   if [[ $# == 0 ]]; then 
-    command vim $BASHSCRIPTS/shortcuts
+    command vim $BASHSCRIPTS/bashrc/shortcuts
   else 
     command vim "$@"
   fi

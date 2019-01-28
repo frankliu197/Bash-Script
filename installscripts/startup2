@@ -43,12 +43,13 @@ ln -s ~/Programming/bash-scripts/.vimrc ~/
 vim +PluginInstall +qall
 
 echo '
-. ~/Programming/bash-scripts/shortcuts
-. ~/Programming/bash-scripts/gitshortcuts
-. ~/Programming/bash-scripts/personalshortcuts' | sudo tee -a  ~/.bashrc
+. ~/Programming/bash-scripts/bashrc/shortcuts
+. ~/Programming/bash-scripts/bashrc/gitshortcuts
+. ~/Programming/bash-scripts/bashrc/personalshortcuts' | sudo tee -a  ~/.bashrc
 
-for i in windowmanager windowselector desktopshortcuts; do
-  ln -s ~/Programming/bash-scripts/$i /usr/bin
+cd $HOME/Programming/bash-scripts/bin/
+for i in windowmanager windowselector volume; do
+  ln -s ~/Programming/bash-scripts/bin/$i /usr/bin
 done
 
 #install custom keyboard

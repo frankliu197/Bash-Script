@@ -12,7 +12,7 @@ apt install -y baobab
 apt install -y xpad
 apt install -y pinta
 apt install -y qalculate
-apt install -y audacious
+apt install -y rhythmbox
 
 
 #install glances
