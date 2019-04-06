@@ -15,21 +15,20 @@
 #pids=$(echo " $(wmctrl -lx | awk '{print $2 $3}' | grep "$1" | awk '{print $3}') " " $(pidof $1) ")
 
 pids=$(wmctrl -lxp | awk '{print $4" "$3}' | grep -i "$1" | awk '{print $2}')
-echo $pids
 
-wmctrl -lpx
-while read identity desktop_number PID application computer window_title; do 
-    if [ -z "${pids//$PID}" ]; then
-				
-				newsession=1
-        echo "Sending $application to the front"
-        wmctrl -ia $identity
-    fi
-  done <<<$(wmctrl -lpx)
-
-if [[ -z $newsession ]]; then
+if [[ -z $pids ]]; then
     echo "There is no program named '$@' opened at the moment."
     echo Creating new ${2-$1} session
     ${2-$1} &
+		exit
 fi
+
+wmctrl -lpx
+while read identity desktop_number PID application computer window_title; do 
+    if [[ -z "${pids//$PID}" ]]; then
+        echo "Sending $application to the front"
+        wmctrl -ia $identity
+    fi
+done <<<$(wmctrl -lpx)
+
 
