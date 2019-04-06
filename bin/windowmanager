@@ -17,7 +17,7 @@ X0=0
 Y0=0
 
 #make array of all the apps that act differently to resizing and check if the current app is one of them
-a=( io.elementary pantheon Firefox evince drracket rhythmbox )
+a=( io.elementary pantheon Firefox evince drracket rhythmbox libreoffice)
 for i in "${a[@]}"; do
  	apps+=( $(xdotool search --class $i) )
 done

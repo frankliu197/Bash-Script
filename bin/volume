@@ -42,7 +42,6 @@ fi
 
 for a in `seq 0 $(expr ${#applist[@]} - 1)`; do
 	echo ${applist[$a]}
-	echo  once twice
 	if [[ $currentapp == *${applist[$a]}* ]]; then
 		match=1
 		pactl set-sink-input-volume ${sinkidentity[$a]} ${option}4% 	

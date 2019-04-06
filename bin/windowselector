@@ -19,7 +19,8 @@ echo $pids
 
 wmctrl -lpx
 while read identity desktop_number PID application computer window_title; do 
-    if [ "${pids//$PID}" != "$pids" ]; then
+    if [ -z "${pids//$PID}" ]; then
+				
 				newsession=1
         echo "Sending $application to the front"
         wmctrl -ia $identity
