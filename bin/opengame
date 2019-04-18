@@ -1,0 +1,45 @@
+#!/bin/bash
+
+#params:
+# $1=Game search term
+# $2=Wineprefix, default=64.sh
+possiblegames=$(find ~/Games/ -iname "*$1*.exe")
+possiblegames+=$(find ~/Games/ -iname "*$1*.sh")
+wineprefix=$2
+defaultprefix=64.sh
+WINEENV=/home/frankliu197/Games/wineenv/
+echo Found ${#possiblegames[@]} results:
+printf '%s\n' "${possiblegames[@]}"
+echo "\n\n"
+
+function openfile {
+	cd $(dirname "$1") #sometimes games store cache from the directory you open them in
+	if [[ $1 =~ .sh$ ]]; then
+		echo opening $1
+		$1
+	elif [[ $1 =~ .exe$ ]]; then
+		echo opening $1 with wine
+		if [[ -z $wineprefix ]]; then
+			wineprefix=$defaultprefix
+			echo "No prefix given. Using default prefix: $WINEENV$wineprefix"
+		fi
+		$WINEENV$wineprefix wine $1
+		exit
+	fi
+}
+
+if [[ ${#possiblegames[@]} -eq 1 ]]; then 
+	openfile ${possiblegames[0]}
+fi
+
+echo Please run opengame again with a more specific search term
+#for file in "${possiblegames[@]}"; do
+#	if [[ $file =~ .sh$ ]]; then
+#		echo opening $file
+#		$file
+#	elif [[ $file =~ .exe$ ]]; then
+#		echo opening $file with wine
+#		/home/frankliu197/Games/wineenv/$wineprefix wine $file
+#	fi
+#done
+		
