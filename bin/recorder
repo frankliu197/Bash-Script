@@ -1,0 +1,8 @@
+#!/bin/bash
+if [[ -n $(pgrep sox) ]]; then
+	echo "END RECORDING"
+	pkill sox
+else
+ 	echo "RECORDING"
+	sox -t alsa default /home/frankliu197/Autotake/Autosox.wav
+fi
