@@ -1,8 +1,43 @@
 #!/bin/bash
-if [[ -n $(pgrep sox) ]]; then
+
+# records in the background (AUDIO|VIDEO|VIDEOAUDIO)
+
+function createFileName() {
+	DATE=`date '+%Y-%m-%d,%H:%M:%S'`
+	filename="/home/frankliu197/Autotake/$1$DATE.wav"
+}
+
+#finds if the process with the given search term exists (which means that this type of recording is already happening
+function alreadyRecording {
+		processes=$(ps aux | grep "$1")
+		local IFS=$'\n'
+		processes=($processes)
+		[[ ${#processes[@]} -eq 2 ]]
+}
+
+function endRecording {
+	for i in "${processes[@]}"; do
+		if [[ $i != "*grep*" ]]; then
+			echo $i | awk '{print $2}' | xargs kill
+		fi
+	done
+}
+
+case $1 in 
+	AUDIO) createFileName $1; launchcmd="gst-launch-1.0 -e autoaudiosrc ! audioconvert ! wavenc ! filesink location=$filename"; searchcmd="gst-launch-1.0 -e autoaudiosrc ! audioconvert ! wavenc ! filesink";;
+	VIDEO) createFileName $1; launchcmd="gst-launch-1.0 -e autovideosrc ! videoconvert ! matroskamux ! filesink location=$filename"; searchcmd="gst-launch-1.0 -e autovideosrc ! videoconvert ! matroskamux ! filesink";;
+	AUDIO*VIDEO) ;&
+	VIDEO*AUDIO) createFileName AUDIOVIDEO; launchcmd="gst-launch-1.0 -e autovideosrc ! queue ! videoconvert ! mkv. autoaudiosrc ! queue ! audioconvert ! mkv. matroskamux name=mkv ! filesink location=$filename sync=false"; searchcmd="gst-launch-1.0 -e autovideosrc ! queue ! videoconvert ! mkv. autoaudiosrc ! queue ! audioconvert ! mkv. matroskamux name=mkv ! filesink";;
+	*) echo "Available commands include AUDIO, VIDEO, AUDIOVIDEO"
+	exit
+esac
+
+if alreadyRecording $searchcmd; then
 	echo "END RECORDING"
-	pkill sox
+	endRecording	
 else
- 	echo "RECORDING"
-	sox -t alsa default /home/frankliu197/Autotake/Autosox.wav
+	echo "RECORDING at $filename"
+	eval $launchcmd
 fi
+
+
